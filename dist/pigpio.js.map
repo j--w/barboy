@@ -1,1 +1,0 @@
-{"version":3,"file":"pigpio.js","sourceRoot":"","sources":["../src/pigpio.ts"],"names":[],"mappings":"AAAA,CAAC,GAAG,EAAE;IACJ,IAAI;QACF,OAAO,OAAO,CAAC,QAAQ,CAAC,CAAC;KAC1B;IAAC,OAAO,GAAG,EAAE;QACZ,OAAO,OAAO,CAAC,aAAa,CAAC,CAAC;KAC/B;AACH,CAAC,CAAC,EAAE,CAAC"}
