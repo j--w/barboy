@@ -1,3 +1,4 @@
+/* tslint:disable:no-implicit-dependencies no-var-requires */
 import * as Pigpio from 'pigpio';
 let pigpio: typeof Pigpio;
 

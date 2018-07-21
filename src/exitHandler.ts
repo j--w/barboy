@@ -1,4 +1,4 @@
-import { Gpio } from './pigpio-wrapper'
+import { Gpio } from './pigpio-wrapper';
 
 function pinsDown(pins: number[]): void {
   pins.map((pin) => new Gpio(pin, { mode: Gpio.OUTPUT })).forEach((gpio: Gpio) => {
@@ -6,11 +6,13 @@ function pinsDown(pins: number[]): void {
   });
 }
 
-function attachCleanupHandler(pins) {
-  function exitHandler(options, err) {
+export function attachCleanupHandler(pins: number[]): void {
+  function exitHandler(options: { exit?: boolean}, err: Error) {
     pinsDown(pins);
     if (err) {
+      // tslint:disable-next-line:no-console
       console.error(err.message);
+      // tslint:disable-next-line:no-console
       console.error(err.stack);
     }
     if (options && options.exit) {
@@ -18,13 +20,11 @@ function attachCleanupHandler(pins) {
     }
   }
   process.on('exit', exitHandler.bind(null));
-  //catches ctrl+c event
+  // catches ctrl+c event
   process.on('SIGINT', exitHandler.bind(null, { exit: true }));
-  // catches "kill pid" 
+  // catches "kill pid"
   process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
   process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
-  //catches uncaught exceptions
+  // catches uncaught exceptions
   process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
 }
-
-module.exports = attachCleanupHandler;

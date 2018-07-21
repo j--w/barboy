@@ -1,5 +1,1 @@
-const attachCleanupHandler = require('./exitHandler');
-
-module.exports = {
-  attachCleanupHandler
-};
+export * from './exitHandler';
