@@ -1,4 +1,4 @@
-import BarState from '@/shared-interfaces/BarState';
+import {BarState} from '@/generated/BarState';
 
 const defaultState: BarState = {
     isBusy: true,
