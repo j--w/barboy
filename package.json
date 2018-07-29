@@ -9,15 +9,16 @@
     "koa-static": "^5.0.0"
   },
   "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-mount": "^3.0.1",
+    "@types/koa-static": "^4.0.0",
+    "@types/pigpio": "^0.4.2",
     "json-schema-to-typescript": "^5.5.0",
     "nodemon": "^1.18.3",
     "pigpio-mock": "0.0.1",
     "tslint": "^5.11.0",
     "typescript": "^2.9.2",
-    "@types/koa": "^2.0.46",
-    "@types/koa-mount": "^3.0.1",
-    "@types/koa-static": "^4.0.0",
-    "@types/pigpio": "^0.4.2"
+    "yorkie": "^1.0.3"
   },
   "scripts": {
     "build": "tsc",
