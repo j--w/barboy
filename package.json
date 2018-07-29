@@ -27,6 +27,9 @@
     "lint": "tslint --project tsconfig.json",
     "generate-interfaces": "mkdir -p generated && npx json2ts schema/BarState.json > generated/BarState.ts --cwd schema"
   },
+  "gitHooks": {
+    "post-merge": "npm run generate-interfaces"
+  },
   "author": "",
   "license": "ISC"
 }
