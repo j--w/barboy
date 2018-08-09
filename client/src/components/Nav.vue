@@ -3,7 +3,7 @@
       <router-link to="/">Home</router-link> |
     </div> -->
 	<nav
-		class="navbar is-fixed-top is-primary"
+		class="navbar is-fixed-top is-success"
 		role="navigation">
 		<div class="navbar-brand">
 			<router-link
@@ -11,7 +11,7 @@
 				tag="a"
 				class="navbar-item">
 				<img
-					src="@/assets/logo.png"
+					src="@/assets/logo.svg"
 					alt="Barboy Logo">
 			</router-link>
       <a

@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-  </div>
+  <section class="home">
+  </section>
 </template>
 
 <script lang="ts">
