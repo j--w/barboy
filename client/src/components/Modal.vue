@@ -1,10 +1,20 @@
 <template>
     <div class="modal" :class="{'is-active': isOpen}">
-        <div class="modal-background"></div>
-            <div class="modal-content">
-                <!-- Any other Bulma elements you want -->
+        <div class="modal-background">
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <slot name="header"></slot>
+                </header>
+                <section class="modal-card-body">
+                    <slot name="content"></slot>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success">Save changes</button>
+                    <button class="button">Cancel</button>
+                </footer>
             </div>
-        <button class="modal-close is-large" aria-label="close"></button>
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
     </div>
 </template>
 <script lang="ts">
@@ -14,3 +24,8 @@
     @Prop({default: false, type: Boolean}) public isOpen!: boolean;
   }
 </script>
+<style lang="scss" scoped>
+    .modal-content {
+        background: white;
+    }
+</style>
