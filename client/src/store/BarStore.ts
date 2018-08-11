@@ -1,4 +1,4 @@
-import {BarState, Pump} from '@/generated/BarState';
+import {BarState, Pump} from '@/generated/interfaces/BarState';
 
 export interface BarStore {
   bar: BarState;
@@ -13,10 +13,10 @@ export default {
     } as BarState,
   },
   mutations: {
-    updateBar(state: BarStore, value: BarState) {
+    updateBar(state: BarStore, value: BarState): void {
       Object.assign(state.bar, value);
     },
-    addPump(state: BarStore, value: Pump) {
+    addPump(state: BarStore, value: Pump): void {
       state.bar.pumps.push(value);
     },
   },

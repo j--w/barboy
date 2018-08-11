@@ -40,13 +40,15 @@
         </tr>
       </table>
     </div>
-    <modal  :is-open="isPumpDialogOpen">
+    <modal
+      :is-open="isPumpDialogOpen"
+      @close="closeDialog">
       <template slot="header">
         Save Pump
       </template>
       <template slot="content">
         <pump-form
-          v-if="activePump"
+          v-if="activePump && isPumpDialogOpen"
           :pump="activePump">
         </pump-form>
       </template>
@@ -56,7 +58,7 @@
 <script lang="ts">
 import { Component, Vue} from 'vue-property-decorator';
 import { BarStore } from '@/store/BarStore';
-import { Pump } from '@/generated/BarState';
+import { Pump } from '@/generated/interfaces/BarState';
 import Modal from '@/components/Modal.vue';
 import PumpForm from './PumpForm.vue';
 import {
@@ -73,25 +75,36 @@ export default class Pumps extends Vue {
   @State('BarStore') public barStore!: BarStore;
 
   public activePump: Pump | null = null;
+  public isPumpDialogOpen: boolean = false;
 
-  public getIngredient(pump: Pump) {
+  public getIngredient(pump: Pump): string {
     return pump.ingredient && pump.ingredient.label ? pump.ingredient.label : 'Not Set';
   }
 
-  public editPump(pump: Pump) {
+  public editPump(pump: Pump): void {
     this.activePump = pump;
+    this.openDialog();
   }
 
-  public addPump() {
+  public addPump(): void {
     this.activePump = {
       label: '',
       isBusy: false,
       flowRate: 0,
       gpioPin: 4,
     };
+    this.openDialog();
   }
 
-  public mounted() {
+  public openDialog(): void {
+    this.isPumpDialogOpen = true;
+  }
+
+  public closeDialog(): void {
+    this.isPumpDialogOpen = false;
+  }
+
+  public mounted(): void {
     this.$store.commit('BarStore/addPump',
     {
       label: 'Two',
@@ -103,10 +116,6 @@ export default class Pumps extends Vue {
       },
     } as Pump,
     );
-  }
-
-  public get isPumpDialogOpen() {
-    return this.activePump !== null;
   }
 }
 </script>

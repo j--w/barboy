@@ -49,13 +49,13 @@ export default class Nav extends Vue {
   private routes: BarboyRoute[] = routes;
   private isActive: boolean = false;
 
-  get menuClasses() {
+  get menuClasses(): object {
     return {
       'is-active': this.isActive,
     };
   }
 
-  public toggleNav() {
+  public toggleNav(): void {
     this.isActive = !this.isActive;
   }
 }
