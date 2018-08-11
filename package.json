@@ -9,10 +9,14 @@
     "json-schema-to-typescript": "^5.5.0"
   },
   "scripts": {
-    "generate-interfaces": "mkdir -p generated && npx json2ts schema/BarState.json > generated/BarState.ts --cwd schema && rm -rf client/src/generated && cp -rf generated client/src && rm -rf server/src/generated && cp -rf generated server/src"
+    "copy-schema": "mkdir -p generated/interfaces && cp -rf schema generated",
+    "generate-interfaces": "npx json2ts generated/schema/BarState.json > generated/interfaces/BarState.ts --cwd schema",
+    "copy-client-generated": "rm -rf client/src/generated && cp -rf generated client/src",
+    "copy-server-generated": "rm -rf server/src/generated && cp -rf generated server/src",
+    "sync-shared": "npm run copy-schema && npm run generate-interfaces && npm run copy-client-generated && npm run copy-server-generated"
   },
   "gitHooks": {
-    "post-merge": "npm run generate-interfaces"
+    "post-merge": "npm run sync-shared"
   },
   "repository": {
     "type": "git",
