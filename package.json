@@ -1,22 +1,31 @@
 {
-  "name": "barboy",
+  "name": "barbot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "@types/pigpio": "^0.4.2"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "pigpio-mock": "0.0.1",
-    "tslint": "^5.11.0",
-    "typescript": "^2.9.2"
+    "yorkie": "^1.0.3",
+    "json-schema-to-typescript": "^5.5.0"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
-    "sync": " rsync -av --exclude node_modules --exclude .git . pi@192.168.0.76:~/barboy",
-    "lint": "tslint --project tsconfig.json"
+    "copy-schema": "mkdir -p generated/interfaces && cp -rf schema generated",
+    "generate-interfaces": "npx json2ts generated/schema/BarState.json > generated/interfaces/BarState.ts --cwd schema",
+    "copy-client-generated": "rm -rf client/src/generated && cp -rf generated client/src",
+    "copy-server-generated": "rm -rf server/src/generated && cp -rf generated server/src",
+    "sync-shared": "npm run copy-schema && npm run generate-interfaces && npm run copy-client-generated && npm run copy-server-generated"
+  },
+  "gitHooks": {
+    "post-merge": "npm run sync-shared"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j--w/barboy.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j--w/barboy/issues"
+  },
+  "homepage": "https://github.com/j--w/barboy#readme"
 }
