@@ -1,5 +1,3 @@
-node_modules
-dist
-.env
-.idea
 generated
+node_modules
+.idea

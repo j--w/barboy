@@ -4,6 +4,9 @@
     "title": "Pump",
     "type": "object",
     "properties": {
+      "label": {
+        "type": "string"
+       },
       "isBusy": {
         "type": "boolean"
       },
@@ -45,10 +48,10 @@
       }
     },
     "required": [
+      "label",
       "isBusy",
       "flowRate",
-      "gpioPin",
-      "ingredient"
+      "gpioPin"
     ],
     "additionalProperties": false
   }

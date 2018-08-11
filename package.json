@@ -1,36 +1,27 @@
 {
-  "name": "barboy",
+  "name": "barbot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "koa": "^2.5.2",
-    "koa-mount": "^3.0.0",
-    "koa-static": "^5.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/koa": "^2.0.46",
-    "@types/koa-mount": "^3.0.1",
-    "@types/koa-static": "^4.0.0",
-    "@types/pigpio": "^0.4.2",
-    "json-schema-to-typescript": "^5.5.0",
-    "nodemon": "^1.18.3",
-    "pigpio-mock": "0.0.1",
-    "tslint": "^5.11.0",
-    "typescript": "^2.9.2",
-    "yorkie": "^1.0.3"
+    "yorkie": "^1.0.3",
+    "json-schema-to-typescript": "^5.5.0"
   },
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc --watch",
-    "serve": "nodemon dist/index",
-    "sync": " rsync -av --exclude node_modules --exclude .git . pi@192.168.0.76:~/barboy",
-    "lint": "tslint --project tsconfig.json",
-    "generate-interfaces": "mkdir -p generated && npx json2ts schema/BarState.json > generated/BarState.ts --cwd schema && cp -rf generated client/src"
+    "generate-interfaces": "mkdir -p generated && npx json2ts schema/BarState.json > generated/BarState.ts --cwd schema && rm -rf client/src/generated && cp -rf generated client/src && rm -rf server/src/generated && cp -rf generated server/src"
   },
   "gitHooks": {
     "post-merge": "npm run generate-interfaces"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j--w/barboy.git"
+  },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j--w/barboy/issues"
+  },
+  "homepage": "https://github.com/j--w/barboy#readme"
 }
