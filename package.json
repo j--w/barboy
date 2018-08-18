@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "@types/koa-router": "^7.0.31",
+    "koa-router": "^7.4.0"
+  },
   "devDependencies": {
     "yorkie": "^1.0.3",
     "json-schema-to-typescript": "^5.5.0"
