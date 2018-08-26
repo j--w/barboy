@@ -33,7 +33,9 @@
             </button>
           </td>
           <td>
-            <button class="button is-danger">
+            <button
+              class="button is-danger"
+              @click.prevent="deletePump(pump.id)">
               <i class="fas fa-trash"></i>
             </button>
           </td>
@@ -49,7 +51,8 @@
       <template slot="content">
         <pump-form
           v-if="activePump && isPumpDialogOpen"
-          :pump="activePump">
+          :pump="activePump"
+          @close="closeDialog">
         </pump-form>
       </template>
     </modal>
@@ -63,7 +66,11 @@ import Modal from '@/components/Modal.vue';
 import PumpForm from './PumpForm.vue';
 import {
   State,
+  Action,
+  namespace,
 } from 'vuex-class';
+
+const barStoreModule = namespace('BarStore');
 @Component({
   components: {
     Modal,
@@ -73,6 +80,7 @@ import {
 })
 export default class Pumps extends Vue {
   @State('BarStore') public barStore!: BarStore;
+  @Action('BarStore/deletePump') public deletePump!: any;
 
   public activePump: Pump | null = null;
   public isPumpDialogOpen: boolean = false;

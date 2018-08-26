@@ -1,7 +1,9 @@
-import {BarState, Pump} from '@/generated/interfaces/BarState';
+import axios from 'axios';
+import {BarState, Pump, Ingredient} from '@/generated/interfaces/BarState';
 
 export interface BarStore {
   bar: BarState;
+  ingredients: Ingredient[];
 }
 
 export default {
@@ -11,6 +13,7 @@ export default {
       isBusy: false,
       pumps: [],
     } as BarState,
+    ingredients: [] as Ingredient[],
   },
   mutations: {
     updateBar(state: BarStore, value: BarState): void {
@@ -18,6 +21,17 @@ export default {
     },
     addPump(state: BarStore, value: Pump): void {
       state.bar.pumps.push(value);
+    },
+  },
+  actions: {
+    async deletePump({}, id: number) {
+      console.log(id);
+      try {
+        await axios.delete(`http://localhost:3000/pumps/${id}`);
+      } catch (error) {
+        console.log(error);
+      }
+
     },
   },
 };

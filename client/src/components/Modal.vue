@@ -14,7 +14,8 @@
   import { Component, Vue, Prop, Emit } from 'vue-property-decorator';
   @Component
   export default class Modal extends Vue {
-    @Prop({default: false, type: Boolean}) public isOpen!: boolean;
+    @Prop({default: false, type: Boolean})
+    public isOpen!: boolean;
 
     @Emit()
     public close(): void {

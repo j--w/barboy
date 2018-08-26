@@ -4,6 +4,9 @@
     "title": "Ingredient",
     "type": "object",
     "properties": {
+      "id": {
+        "type": "integer"
+      },
       "label": {
         "type": "string"
       },
