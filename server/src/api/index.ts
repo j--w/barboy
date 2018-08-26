@@ -6,16 +6,14 @@ import { Pump, Ingredient } from '../generated/interfaces/BarState';
 import { Nohm } from 'nohm';
 
 const db = createHandyClient();
-const api = new KoaRouter();
-// db.once('connect', async () => {
+const pubSub = createHandyClient();
 
-// });
-// const init = async () => {
-//   await db.connect();
+const api = new KoaRouter();
 
 db.redis.once('connect', async () => {
   Nohm.setPrefix('barbot');
   Nohm.setClient(db.redis);
+
   // pumps
   api.post('/pumps', async (ctx, next) => {
     try {
@@ -26,7 +24,6 @@ db.redis.once('connect', async () => {
       pump.property('isBusy', false);
       pump.property('flowRate', pumpData.flowRate);
       pump.property('gpioPin', pumpData.gpioPin);
-
       await pump.save();
       ctx.status = 201;
       next();
@@ -44,7 +41,6 @@ db.redis.once('connect', async () => {
 
       const ids = await pumpModel.find(undefined);
       const pumps = await pumpModel.loadMany(ids);
-      console.log(pumps);
       ctx.status = 200;
       ctx.response.body = pumps.map((item) => {
         const res: Pump = {
@@ -56,7 +52,6 @@ db.redis.once('connect', async () => {
       });
       next();
     } catch (err) {
-      console.log(err);
       ctx.response.body = err.message;
       ctx.status = 404;
       next();
@@ -79,6 +74,16 @@ db.redis.once('connect', async () => {
       ctx.status = 400;
       next();
     }
+  });
+
+  // state
+
+  api.get('state', async (ctx) => {
+    ctx.req.setTimeout(Number.MAX_VALUE, () => {});
+    ctx.type = 'text/event-stream; charset=utf-8';
+    ctx.set('Cache-Control', 'no-cache');
+    ctx.set('Connection', 'keep-alive');
+
   });
 });
 
