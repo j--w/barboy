@@ -4,3 +4,5 @@ dist
 .idea
 src/generated
 schema
+src/
+*.sqlite
