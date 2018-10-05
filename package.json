@@ -4,9 +4,15 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@types/pigpio": "^0.4.2"
+    "@koa/cors": "^2.2.2",
+    "@types/pigpio": "^0.4.2",
+    "koa": "^2.5.3",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "queue": "^4.5.0"
   },
   "devDependencies": {
+    "@types/koa": "^2.0.46",
     "pigpio-mock": "0.0.1",
     "tslint": "^5.11.0",
     "typescript": "^2.9.2"
@@ -15,7 +21,8 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "sync": " rsync -av --exclude node_modules --exclude .git . pi@192.168.0.76:~/barboy",
-    "lint": "tslint --project tsconfig.json"
+    "lint": "tslint --project tsconfig.json",
+    "start": "npx nodemon dist"
   },
   "author": "",
   "license": "ISC"
