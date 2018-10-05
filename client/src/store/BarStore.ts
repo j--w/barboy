@@ -12,6 +12,8 @@ export default {
     bar: {
       isBusy: false,
       pumps: [],
+      ingredients: [],
+      recipes: [],
     } as BarState,
     ingredients: [] as Ingredient[],
   },

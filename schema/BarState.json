@@ -10,14 +10,27 @@
       "pumps": {
         "type": "array",
         "items": {
-          "type": "object",
           "$ref": "Pump.json"
+        }
+      },
+      "ingredients": {
+        "type": "array",
+        "items": {
+          "$ref": "Ingredient.json"
+        }
+      },
+      "recipes": {
+        "type": "array",
+        "items": {
+          "$ref": "Recipe.json"
         }
       }
     },
     "required": [
       "isBusy",
-      "pumps"
+      "pumps",
+      "ingredients",
+      "recipes"
     ],
     "additionalProperties": false
   }

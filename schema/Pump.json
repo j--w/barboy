@@ -50,11 +50,7 @@
         "maximum": 2000
       },
       "ingredient": {
-        "type": "object",
         "$ref": "Ingredient.json"
-      },
-      "ingredientId": {
-        "type": "integer"
       }
     },
     "required": [

@@ -1,0 +1,23 @@
+{
+
+  "$schema": "http://json-schema.org/schema#",
+  "id": "RecipeIngredient.json",
+  "title": "RecipeIngredient",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "ingredient": {
+      "$ref": "Ingredient.json"
+    },
+    "amount": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "ingredient",
+    "amount"
+  ]
+}

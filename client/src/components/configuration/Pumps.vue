@@ -4,7 +4,7 @@
       <button
         class="button is-primary"
         @click.prevent="addPump">
-        Add Pump &nbsp;<i class="fas fa-plus"></i>
+        Add {{entity}} &nbsp;<i class="fas fa-plus"></i>
       </button>
       <table class="table is-fullwidth">
         <tr>
@@ -59,7 +59,7 @@
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue} from 'vue-property-decorator';
+import { Component, Vue, Prop} from 'vue-property-decorator';
 import { BarStore } from '@/store/BarStore';
 import { Pump } from '@/generated/interfaces/BarState';
 import Modal from '@/components/Modal.vue';
@@ -71,6 +71,8 @@ import {
 } from 'vuex-class';
 
 const barStoreModule = namespace('BarStore');
+
+
 @Component({
   components: {
     Modal,
@@ -81,6 +83,8 @@ const barStoreModule = namespace('BarStore');
 export default class Pumps extends Vue {
   @State('BarStore') public barStore!: BarStore;
   @Action('BarStore/deletePump') public deletePump!: any;
+  @Prop({default: 'Pump', type: String})
+  public entity!: string;
 
   public activePump: Pump | null = null;
   public isPumpDialogOpen: boolean = false;
