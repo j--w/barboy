@@ -1,0 +1,114 @@
+<div class="{isBusy ? 'is-busy' : ''} status">
+	<p hidden="{isBusy}">Ready to Pour!</p>
+	<p hidden="{!isBusy}">Busy Pouring!</p>
+</div>
+<section class="drinks">
+	{#each drinks as drink}
+		<div class="drink">
+			<h2>{drink.label}</h2>
+			<button disabled="{isBusy}" on:click="orderDrink(drink)">Order</button>
+		</div>
+	{:else}
+		<div>No drinks available dumdum</div>
+	{/each}
+</section>
+
+
+<style lang="sass">
+	.drinks {
+		position: fixed;
+		top: 2rem;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		overflow: auto;
+		z-index: 1;
+	}
+	.drink {
+		width: calc(100% - 2rem);
+		margin: 1rem;
+		border-radius: 1rem;
+		box-shadow: 5px 5px 10px #888;
+		background-color: white;
+		padding: 1rem;
+		
+		button {
+			transition: opacity 0.2s ease-in-out;
+			width: 100%;
+		}
+
+		button:disabled {
+			opacity: 0.5;
+		}
+	}
+
+	.status {
+		position: fixed;
+		z-index: 10;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 2rem;
+		border-bottom: solid 3px white;
+		font-size: 14px;
+		color: white;
+		text-align: center;
+		pointer-events: none;
+		&.is-busy {
+			background: #CF000F;
+		}
+		p {
+			margin: 0.2rem 0;
+			padding: 0;
+		}
+	}
+</style>
+
+<script>
+	export default {
+		data() {
+			return {
+				drinks: [],
+				sse: null,
+				isBusy: false
+			}
+		},
+		oncreate() {
+			this.loadRecipes();
+			this.subscribeToState();
+		},
+		methods: {
+			subscribeToState() {
+				this.sse = new EventSource('http://localhost:3000/state');
+				this.sse.onmessage = (event) => {
+					const eventData = JSON.parse(event.data);
+					this.set({isBusy: eventData.busy});
+				}
+			},
+			async loadRecipes() {
+				try {
+					const res = await fetch('http://localhost:3000/recipes')
+					const drinks = await res.json();
+					this.set({drinks});
+				} catch( error ) {
+					console.warn(error);
+				}
+				
+			},
+			async orderDrink(drink) {
+				try {
+					const res = await fetch('http://localhost:3000/order', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json; charset=utf-8'
+						},
+						body: JSON.stringify({recipe: drink.id})
+					});
+				} catch( error ) {
+					console.warn(error);
+				}
+				console.log(drink);
+			}
+		}
+	}
+</script>
