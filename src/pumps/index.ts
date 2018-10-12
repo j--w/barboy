@@ -1,7 +1,9 @@
 
 import { eventBus, sleep } from '../util';
 import { Gpio } from '../pigpio-wrapper';
-import * as queue from 'queue';
+import { pumps } from '../config';
+
+const queue = require('queue');
 const pins = [];
 
 const dutyCycle = 255;
@@ -28,7 +30,7 @@ function emptyOrders() {
 
 async function instructPump(pump: any) {
     try {
-        const pin = new Gpio(pump.pin, { mode: Gpio.OUTPUT }));
+        const pin = new Gpio(pump.pin, { mode: Gpio.OUTPUT });
         pin.pwmWrite(dutyCycle);
         await sleep(pump.timeInMS);
         pin.pwmWrite(0);
@@ -39,7 +41,7 @@ async function instructPump(pump: any) {
     }
 }
 
-function handleOrder(instructions: []) {
+function handleOrder(instructions: any) {
     if (!isBusy) {
         emptyOrders();
         instructions.forEach((pump) => {
@@ -52,7 +54,15 @@ function handleOrder(instructions: []) {
         order.start();
     }
 }
-export default function initPump() {
+
+function resetPumps() {
+    Object.values(pumps).forEach((pump) => {
+        const pin = new Gpio(pump.pin, { mode: Gpio.OUTPUT });
+        pin.pwmWrite(0);
+    });
+}
+export default function initPumps() {
+    resetPumps();
     eventBus.on('order', handleOrder);
     order.on('success', (result, job) => {
         if (order.length === 0) {

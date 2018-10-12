@@ -9,20 +9,26 @@
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "queue": "^4.5.0"
   },
   "devDependencies": {
     "@types/koa": "^2.0.46",
+    "nodemon": "^1.18.4",
     "pigpio-mock": "0.0.1",
+    "svelte-preprocess-sass": "^0.1.0",
     "tslint": "^5.11.0",
     "typescript": "^2.9.2"
   },
   "scripts": {
+    "build:static": "cd client && npm run build && cd .. && cp -rf client/public/. dist/static",
     "build": "tsc",
+    "build:all": "tsc && npm run build:static",
     "watch": "tsc --watch",
-    "sync": " rsync -av --exclude node_modules --exclude .git . pi@192.168.0.76:~/barboy",
+    "sync": "rsync -av --exclude node_modules --exclude .git . pi@192.168.0.14:~/barbot",
     "lint": "tslint --project tsconfig.json",
-    "start": "npx nodemon dist"
+    "serve": "nodemon dist",
+    "start": "npm run build:static && npm run serve"
   },
   "author": "",
   "license": "ISC"

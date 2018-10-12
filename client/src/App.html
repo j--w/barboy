@@ -6,15 +6,77 @@
 	{#each drinks as drink}
 		<div class="drink">
 			<h2>{drink.label}</h2>
-			<button disabled="{isBusy}" on:click="orderDrink(drink)">Order</button>
+			<h3 hidden="{!drink.variations || drink.variations.length === 0}">
+				Variations: {drink.variations}
+			</h3>
+			<button disabled="{isBusy}" on:click="startOrder(drink)">Order</button>
 		</div>
 	{:else}
 		<div>No drinks available dumdum</div>
 	{/each}
 </section>
+{#if activeDrink}
+<div class="dialog-wrapper" hidden="{!activeDrink}">
+	<div class="dialog">
+		<h1>{activeDrink.label}</h1>
+		{#if !orderInProgress}
+		<h2>Set up your glass!</h2>
+		<ol hidden="{orderInProgress}">
+			<li>Add some ice</li>
+			{#each activeDrink.preSteps as step}
+			<li>{step}</li>
+			{/each}
+			<li>Place glass under nozzle</li>
+		</ol>
+		{/if}
+		{#if orderInProgress}
+		<h2>When it's finished pouring</h2>
+		<ol hidden="{!orderInProgress}">
+			{#each activeDrink.postSteps as step}
+			<li>{step}</li>
+			{/each}
+			<li>Drink it dummy!</li>
+		</ol>
+		{/if}
+		<button class="btn-done" hidden="{!orderInProgress || isBusy}" on:click="cancelOrder()">Done</button>
+		<button hidden="{orderInProgress}" on:click="orderDrink(activeDrink)">Pour it!</button>
+		<button hidden="{orderInProgress}" on:click="cancelOrder()">Cancel</button>
+	</div>
+</div>
+{/if}
 
 
 <style lang="sass">
+
+	.dialog-wrapper {
+		background: rgba( 0, 0, 0, 0.5);
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 500;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.dialog {
+			background: white;
+			width: 75%;
+
+			h1 {
+				font-size: 25px;
+			}
+
+			button {
+				width: calc(50% - 0.5rem);
+				&.btn-done {
+					width: 100%;
+				}
+			}
+
+		}
+	}
 	.drinks {
 		position: fixed;
 		top: 2rem;
@@ -24,7 +86,7 @@
 		overflow: auto;
 		z-index: 1;
 	}
-	.drink {
+	.drink, .dialog {
 		width: calc(100% - 2rem);
 		margin: 1rem;
 		border-radius: 1rem;
@@ -39,6 +101,11 @@
 
 		button:disabled {
 			opacity: 0.5;
+		}
+		
+		h3 {
+			font-size: 16px;
+			color: #666;
 		}
 	}
 
@@ -70,7 +137,9 @@
 			return {
 				drinks: [],
 				sse: null,
-				isBusy: false
+				isBusy: false,
+				activeDrink: null,
+				orderInProgress: false
 			}
 		},
 		oncreate() {
@@ -95,8 +164,26 @@
 				}
 				
 			},
+			startOrder(drink) {
+				this.set({
+					activeDrink: {
+						preSteps:[],
+						postSteps:[],
+						...drink,
+					}
+				});
+			},
+			cancelOrder() {
+				this.set({
+					activeDrink: null,
+					orderInProgress: false
+				})
+			},
 			async orderDrink(drink) {
 				try {
+					this.set({
+						orderInProgress: true
+					})
 					const res = await fetch('http://localhost:3000/order', {
 						method: 'POST',
 						headers: {

@@ -1,30 +1,33 @@
 import { has } from '../util';
 
-const pumps = {
+export const pumps = {
     gin: {
         pin: 24,
         rate: 390
     },
     bourbon: {
-        pin: 27,
+        pin: 23,
         rate: 390
     },
     campari: {
-        pin: 17,
-        rate: 390
-    },
-    vermouth: {
         pin: 22,
         rate: 390
     },
-    bitters: {
-        pin: 23,
-        rate: 95
-    }
+    vermouth: {
+        pin: 27,
+        rate: 390
+    },
+    // simpleSyrup: {
+    //     pin: 25,
+    //     rate: 95
+    // }
 };
 const recipes = {
     negroni: {
         label: 'Negroni',
+        postSteps: [
+            'Garnish with orange'
+        ],
         ingredients: [
             {
                 ingredient: 'gin',
@@ -42,6 +45,9 @@ const recipes = {
     },
     boulevardier: {
         label: 'Boulevardier',
+        postSteps: [
+            'Garnish with orange'
+        ],
         ingredients: [
             {
                 ingredient: 'bourbon',
@@ -57,8 +63,16 @@ const recipes = {
             }
         ]
     },
-    ginTonic: {
-        label: 'Gin & Tonic',
+    gin: {
+        label: 'Gin',
+        variations: 'Gin & Tonic, Gin & Soda',
+        preSteps: [
+            'Add ice to glass'
+        ],
+        postSteps: [
+            'Top up with soda or tonic',
+            'Add Lime'
+        ],
         ingredients: [
             {
                 ingredient: 'gin',
@@ -66,21 +80,65 @@ const recipes = {
             }
         ]
     },
-    oldFashioned: {
-        label: 'Old Fashioned',
+    doubleGin: {
+        label: 'Double Gin',
+        variations: 'Double Gin & Tonic, Double Gin & Soda',
+        preSteps: [
+            'Add ice to glass'
+        ],
+        postSteps: [
+            'Top up with soda or tonic',
+            'Add Lime'
+        ],
+        ingredients: [
+            {
+                ingredient: 'gin',
+                amount: 50
+            }
+        ]
+    },
+    bourbon: {
+        label: 'Bourbon',
+        ingredients: [
+            {
+                ingredient: 'bourbon',
+                amount: 25
+            },
+        ]
+    },
+    doubleBourbon: {
+        label: 'Double Bourbon',
+        variations: 'Old Fashioned',
+        preSteps: [
+            'For Old Fashioned add 3 dashes of bitters and splash of simple syrup'
+        ],
+        postSteps: [
+            'For Old Fashioned, garnish with orange and/or cherry'
+        ],
         ingredients: [
             {
                 ingredient: 'bourbon',
                 amount: 50
             },
+        ]
+    },
+    campari: {
+        label: 'Campari',
+        ingredients: [
             {
-                ingredient: 'bitters',
-                amount: 3
-            }
+                ingredient: 'campari',
+                amount: 25
+            },
         ]
     },
     manhattan: {
         label: 'Manhattan',
+        preSteps: [
+            'Add 2 dashes bitters to glass'
+        ],
+        postSteps: [
+            'Garnish with orange or cherry'
+        ],
         ingredients: [
             {
                 ingredient: 'bourbon',
@@ -89,12 +147,43 @@ const recipes = {
             {
                 ingredient: 'vermouth',
                 amount: 25
-            },
-            {
-                ingredient: 'bitters',
-                amount: 3
             }
         ]
+    },
+    americano: {
+        label: 'Americano',
+        postSteps: [
+            'Add splash of soda',
+            'Garnish with orange'
+        ],
+        ingredients: [
+            {
+                ingredient: 'campari',
+                amount: 25
+            },
+            {
+                ingredient: 'vermouth',
+                amount: 25
+            }
+        ]
+    },
+    negroniSbagliato: {
+        label: 'Negroni Sbagliato',
+        postSteps: [
+            'Top up with prosecco',
+            'Garnish with orange'
+        ],
+        ingredients: [
+            {
+                ingredient: 'campari',
+                amount: 25
+            },
+            {
+                ingredient: 'vermouth',
+                amount: 25
+            }
+        ]
+
     }
 };
 
