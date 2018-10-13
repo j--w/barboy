@@ -203,7 +203,12 @@ function pumpTimeInMS(amount: number, rate: number) {
 
 export const friendlyRecipes = Object.keys(recipes)
     .map((id) => ({ id, ...recipes[id] }))
-    .sort(sortRecipe);
+    .sort(sortRecipe).concat([{
+        id: 'random',
+        label: 'A mystery drink of my choosing',
+        postSteps:[],
+        ingredients:[],
+      }])
 
 export function getInstructions(recipeId: string) {
     if (recipeId === 'random') {
