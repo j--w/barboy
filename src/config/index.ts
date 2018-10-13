@@ -208,7 +208,7 @@ export const friendlyRecipes = Object.keys(recipes)
 export function getInstructions(recipeId: string) {
     if (recipeId === 'random') {
         const ids = Object.keys(recipes);
-        recipeId = ids[Math.floor(Math.random()*ids.length)
+        recipeId = ids[Math.floor(Math.random()*ids.length)]
     }
     if (!has(recipes, recipeId)) {
         throw new Error(`Unable to locate recipe: ${recipeId}`);
