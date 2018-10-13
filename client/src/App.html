@@ -5,7 +5,14 @@
 <section class="drinks">
 	{#each drinks as drink}
 		<div class="drink">
-			<h2>{drink.label}</h2>
+			<h2>{drink.label}
+				<small>
+					{#each drink.ingredients as ingredient}
+						<span>
+							<span class="ingredient">{ingredient.ingredient}</span> <span class="amount">{ingredient.amount} mL</span>
+						</span>
+					{/each}
+				</small></h2>
 			<h3 hidden="{!drink.variations || drink.variations.length === 0}">
 				Variations: {drink.variations}
 			</h3>
@@ -93,6 +100,22 @@
 		box-shadow: 5px 5px 10px #888;
 		background-color: white;
 		padding: 1rem;
+
+		small {
+			> span {
+				display: inline-block;
+				padding: 0 0.5rem;
+				border-right: solid 2px #666;
+				font-size: 14px;
+				&:last-child {
+					border-right: none;
+				}
+			}
+			color: #666;
+			.ingredient {
+				text-transform: capitalize;
+			}
+		}
 		
 		button {
 			transition: opacity 0.2s ease-in-out;
@@ -133,22 +156,21 @@
 
 <script>
 	export default {
-		data() {
+		data: function() {
 			return {
 				drinks: [],
 				sse: null,
 				isBusy: false,
 				activeDrink: null,
-				orderInProgress: false
-			}
+				orderInProgress: false			}
 		},
-		oncreate() {
+		oncreate: function() {
 			this.loadRecipes();
 			this.subscribeToState();
 		},
 		methods: {
 			subscribeToState() {
-				this.sse = new EventSource('http://localhost:3000/state');
+				this.sse = new EventSource(`http://${window.location.hostname}:3000/state`);
 				this.sse.onmessage = (event) => {
 					const eventData = JSON.parse(event.data);
 					this.set({isBusy: eventData.busy});
@@ -156,7 +178,7 @@
 			},
 			async loadRecipes() {
 				try {
-					const res = await fetch('http://localhost:3000/recipes')
+					const res = await fetch(`http://${window.location.hostname}:3000/recipes`)
 					const drinks = await res.json();
 					this.set({drinks});
 				} catch( error ) {
@@ -184,7 +206,7 @@
 					this.set({
 						orderInProgress: true
 					})
-					const res = await fetch('http://localhost:3000/order', {
+					const res = await fetch(`http://${window.location.hostname}:3000/order`, {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json; charset=utf-8'

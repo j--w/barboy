@@ -24,6 +24,7 @@
     "build:static": "cd client && npm run build && cd .. && cp -rf client/public/. dist/static",
     "build": "tsc",
     "build:all": "tsc && npm run build:static",
+    "deploy": "npm run build:all && npm run sync",
     "watch": "tsc --watch",
     "sync": "rsync -av --exclude node_modules --exclude .git . pi@192.168.0.14:~/barbot",
     "lint": "tslint --project tsconfig.json",
